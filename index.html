@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Dots</title>
+  </head>
+  <body>
+    <div class="game-intro">
+      <img src="/images/circle-game-logo.png" alt="" class="logo-img" />
+      <br />
+      <input type="image" src="images/Play-button.png" name="play" id="play-button"/>
+      <input type="image" src="/images/Sound-button.png" name="play" id="sound-button"/>
+      <p>Instructions: <br>left-mouse click to rotate circles and collect corresponding colored circles</p>
+      <!-- <img src="./images/arrows.png" alt="" class="arrows-img" /> -->
+    </div>
+
+    <div id="game-board">
+      <canvas id="canvas" width="700" height="700"></canvas>
+    </div>
+
+    <script type="text/javascript" src="/dots.js"></script>
+  </body>
+</html>
