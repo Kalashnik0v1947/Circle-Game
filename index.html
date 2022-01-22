@@ -11,14 +11,18 @@
     <div class="game-intro">
       <img src="/images/circle-game-logo.png" alt="" class="logo-img" />
       <br />
-      <input type="image" src="images/Play-button.png" name="play" id="play-button"/>
-      <input type="image" src="/images/Sound-button.png" name="play" id="sound-button"/>
-      <p>Instructions: <br>left-mouse click to rotate circles and collect corresponding colored circles</p>
+      <input type="image" src="images/Play-button.png" id="play-button"/>
+      <button id="start-button">StartGame</button>
+      <input type="image" src="/images/Sound-button.png" id="sound-button"/>
+      <p>
+        Instructions: <br />Use the left-mouse button to rotate and collect
+        corresponding colored circles
+      </p>
       <!-- <img src="./images/arrows.png" alt="" class="arrows-img" /> -->
     </div>
 
     <div id="game-board">
-      <canvas id="canvas" width="700" height="700"></canvas>
+      <canvas id="canvas" width="1000" height="1000"></canvas>
     </div>
 
     <script type="text/javascript" src="/dots.js"></script>
