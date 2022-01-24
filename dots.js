@@ -15,10 +15,18 @@ window.onload = () => {
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  const endScreen = new Image();
+  function theEnd() {
+    endScreen.onload = function () {
+      ctx.drawImage(endScreen, 0, 0, 750, 750);
+    };
+    endScreen.src = "/images/gameover-screen.png";
+  }
+
   //PLAYER IMAGE
   const player = new Image();
   player.onload = function () {
-    ctx.drawImage(player, 350, 300, 50, 100);
+    ctx.drawImage(player, 350, 325, 50, 100);
   };
   player.src = "/images/Player.png";
 
@@ -26,60 +34,65 @@ window.onload = () => {
   class Player {
     constructor() {
       this.x = 350;
-      this.y = 300;
+      this.y = 325;
       this.w = 50;
       this.h = 100;
+      this.degree = 0;
+      this.translateX = 0;
+      this.translateY = 0;
       this.reverseX = false;
       this.reverseY = false;
     }
     move(direction) {
       switch (direction) {
-        case "ArrowUp":
-          if (this.y < 0) {
-            this.y = 0;
-          } else {
-            this.y -= 15;
-          }
+        case "click":
+          rotate90();
           break;
-        case "ArrowDown":
-          this.y += 15;
-          break;
-        case "ArrowLeft":
-          this.x -= 15;
-          break;
-        case "ArrowRight":
-          this.x += 15;
-          break;
+      }
+    }
+    draw() {
+      ctx.save();
+      ctx.translate(this.translateX, this.translateY);
+      ctx.rotate((this.degree * Math.PI) / 180);
+      ctx.drawImage(player, this.x, this.y, this.w, this.h);
+      ctx.restore();
+    }
+    rotate() {
+      if (this.degree >= 270) {
+        this.degree = 0;
+        this.translateX = 0;
+        this.translateY = 0;
+      } else if (this.degree === 0) {
+        this.degree = 90;
+        this.translateX = canvas.width;
+        this.translateY = canvas.height / this.h - 8;
+      } else if (this.degree === 90) {
+        this.degree = 180;
+        this.translateX = canvas.width;
+        this.translateY = canvas.height;
+      } else {
+        this.degree = 270;
+        this.translateX = 0;
+        this.translateY = canvas.height;
       }
     }
   }
 
   //PLAYER VARIABLES & FUNCTIONS
   let circle = new Player();
-
-  //PLAYER ROTATION ON-CLICK
-
-  //MOVEMENT
-  // let angleInDegrees = 0;
-  // $('#clockwise').click(function(){
-  //   angleInDegrees+=90
-  //   drawRotated(angleInDegrees)
-  // })
-
-  // function drawRotated(degrees){
-  //   ctx.save()
-  //   ctx.traslate(canvas.width/2,canvas.height/2)
-  //   ctx.rotate(degrees*Math.PI/180)
-  //   ctx.drawImage(player,-circle.w/2,-circle.w/2)
-  //   ctx.restore()
-  // }
+  const obstacleArr = [];
 
   //RANDOM CIRLE COLORS
-  let colors = ["#f49ac1", "#82ca9c"];
-  let randomColor = Math.floor(Math.random() * colors.length);
-  colors[randomColor];
+  let pinkColor = "#f49ac1";
+  let greenColor = "#82ca9c";
+  function determineRandomColor() {
+    let colors = [pinkColor, greenColor];
+    let randomColor = Math.floor(Math.random() * colors.length);
+    console.log(colors[randomColor]);
+    return colors[randomColor];
+  }
 
-  //CICLE CLASS MID TOP
+  //CICLE CLASS TOP
   class ItemMidTop {
     constructor(x, y, color) {
       this.x = 375;
@@ -87,24 +100,25 @@ window.onload = () => {
       this.r = 25;
       this.a = 0;
       this.e = Math.PI * 2;
-      this.color = colors[randomColor];
+      this.points = 1;
+      this.color = determineRandomColor();
       this.reverseX = false;
       this.reverseY = false;
+      this.direction = "top";
     }
 
     move() {
-      this.y = this.y + 0.5;
+      this.y = this.y + 1.25;
     }
   }
-  //CiRCLE VARIABLES AND FUNCTIONS MID TOP
+  //CiRCLE VARIABLES AND FUNCTIONS TOP
   const ob1 = new ItemMidTop();
-  const obstacleArr = [];
   obstacleArr.push(ob1);
   function createObj1() {
     obstacleArr.push(new ItemMidTop());
   }
 
-  // CICLE CLASS MID BOT
+  // CICLE CLASS BOT
   class ItemMidBot {
     constructor(x, y, color) {
       this.x = 375;
@@ -112,24 +126,25 @@ window.onload = () => {
       this.r = 25;
       this.a = 0;
       this.e = Math.PI * 2;
-      this.color = colors[randomColor];
+      this.points = 1;
+      this.color = determineRandomColor();
       this.reverseX = false;
       this.reverseY = false;
+      this.direction = "bot";
     }
 
     move() {
-      this.y = this.y - 0.5;
+      this.y = this.y - 1.25;
     }
   }
-  //CiRCLE VARIABLES AND FUNCTIONS MID BOT
+  //CiRCLE VARIABLES AND FUNCTIONS BOT
   const ob2 = new ItemMidBot();
-  // const obstacleArr1 = [];
   obstacleArr.push(ob2);
   function createObj2() {
     obstacleArr.push(new ItemMidBot());
   }
 
-  //CICLE CLASS MID LEFT
+  //CICLE CLASS LEFT
   class ItemMidLeft {
     constructor(x, y, color) {
       this.x = 0;
@@ -137,24 +152,25 @@ window.onload = () => {
       this.r = 25;
       this.a = 0;
       this.e = Math.PI * 2;
-      this.color = colors[randomColor];
+      this.points = 1;
+      this.color = determineRandomColor();
       this.reverseX = false;
       this.reverseY = false;
+      this.direction = "left";
     }
 
     move() {
-      this.x = this.x + 0.5;
+      this.x = this.x + 1.25;
     }
   }
-  //CiRCLE VARIABLES AND FUNCTIONS MID LEFT
+  //CiRCLE VARIABLES AND FUNCTIONS LEFT
   const ob3 = new ItemMidLeft();
-  // const obstacleArr1 = [];
   obstacleArr.push(ob3);
   function createObj3() {
     obstacleArr.push(new ItemMidLeft());
   }
 
-  //CICLE CLASS MID RIGHT
+  //CICLE CLASS RIGHT
   class ItemMidRight {
     constructor(x, y, color) {
       this.x = 700;
@@ -162,18 +178,19 @@ window.onload = () => {
       this.r = 25;
       this.a = 0;
       this.e = Math.PI * 2;
-      this.color = colors[randomColor];
+      this.points = 1;
+      this.color = determineRandomColor();
       this.reverseX = false;
       this.reverseY = false;
+      this.direction = "right";
     }
 
     move() {
-      this.x = this.x - 0.5;
+      this.x = this.x - 1.25;
     }
   }
-  //CiRCLE VARIABLES AND FUNCTIONS MID RIGHT
+  //CiRCLE VARIABLES AND FUNCTIONS RIGHT
   const ob4 = new ItemMidRight();
-  // const obstacleArr1 = [];
   obstacleArr.push(ob4);
   function createObj4() {
     obstacleArr.push(new ItemMidRight());
@@ -182,40 +199,40 @@ window.onload = () => {
   //GAME ENGINE AND COLLISION VARIABLES AND FUNCTIONS
   let engine;
   let didCollide;
-
-  //SCORE FUNCTION AND VARIABLE
   let score = 0;
-  let scoreInterval;
-  function scoreCounter() {
-    score += 10;
-    ctx.font = "24px serif";
-    ctx.fillStyle = "red";
-    ctx.fillText(`Score:${0}`, 600, 50);
-  }
-  scoreCounter();
 
-  //GAME OVER VARIABLE
-  function draw() {
-    let ctx = document.getElementById("canvas").getContext("2d");
-    ctx.font = "48px serif";
-    ctx.fillStyle = "white";
-    ctx.fillText("Game Over", 150, 350);
+  function createRandomObject(arr) {
+    let randomObj = Math.floor(Math.random() * 4);
+    switch (randomObj) {
+      case 0:
+        createObj1();
+        break;
+
+      case 1:
+        createObj2();
+        break;
+
+      case 2:
+        createObj3();
+        break;
+
+      case 3:
+        createObj4();
+        break;
+    }
   }
 
   //START GAME
   function startGame() {
-    setInterval(createObj1, 1000);
-    setInterval(createObj2, 1000);
-    setInterval(createObj3, 1000);
-    setInterval(createObj4, 1000);
-    scoreInterval = setInterval(scoreCounter, 2000);
     document.addEventListener("click", function (e) {
-      switch (e.code) {
+      console.log(e);
+      switch (e.type) {
         case "click":
-          //player rotate 90 degrees
+          circle.rotate();
           break;
       }
     });
+    setInterval(createRandomObject, 2000);
     animate();
   }
 
@@ -223,20 +240,13 @@ window.onload = () => {
   function animate() {
     engine = window.requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#fdc689";
+    ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(player, circle.x, circle.y, circle.w, circle.h);
 
-    //COLLISION NOT WORKING FOR SOME REASON
-    // if (circle.w + 158 / 3.5 >= canvas.width) {
-    //   circle.reverseX = true;
-    // } else if (circle.w <= 0) {
-    //   circle.reverseX = false;
-    // }
+    //LOOP FOR CREATING ITEM CLASS OBJECT
 
-    //SECOND LOOP FOR CREATING ITEM CLASS OBJECT
     for (let i = 0; i < obstacleArr.length; i++) {
-      ctx.fillStyle = colors[randomColor];
+      ctx.fillStyle = obstacleArr[i].color;
       obstacleArr[i].move();
       ctx.beginPath();
       ctx.arc(
@@ -245,65 +255,109 @@ window.onload = () => {
         obstacleArr[i].r,
         obstacleArr[i].a,
         obstacleArr[i].e,
-        colors[randomColor]
+        obstacleArr[i].color
       );
       ctx.fill();
       ctx.closePath();
-    }
 
-    //SECOND LOOP FOR CREATING ITEM CLASS OBJECT
-    for (let i = 0; i < obstacleArr.length; i++) {
-      ctx.fillStyle = colors[randomColor];
-      obstacleArr[i].move();
-      ctx.beginPath();
-      ctx.arc(
-        obstacleArr[i].x,
-        obstacleArr[i].y,
-        obstacleArr[i].r,
-        obstacleArr[i].a,
-        obstacleArr[i].e,
-        colors[randomColor]
-      );
-      ctx.fill();
-      ctx.closePath();
-      // COLLISION CONDITIONAL STATEMENTS AND VARIABLE DECLARATION
-      didCollide = detectCollision(player, obstacleArr[i]);
+      // COLLISION
+      didCollide = detectCollision(circle, obstacleArr[i]);
 
-      if (didCollide) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        gameOver();
-      }
-      //IS THIS ONE NEEDED????
-      if (didCollide) {
-        console.log("COLLISION");
+      //90 DEGREE COLLISION
+      if (
+        didCollide &&
+        circle.degree === 90 &&
+        obstacleArr[i].color === pinkColor &&
+        obstacleArr[i].direction === "right"
+      ) {
+        score += 1;
+        obstacleArr.splice(i, 1);
+      } else if (
+        didCollide &&
+        circle.degree === 90 &&
+        obstacleArr[i].color === greenColor &&
+        obstacleArr[i].direction === "left"
+      ) {
+        score += 1;
+        obstacleArr.splice(i, 1);
+      } else if (
+        didCollide &&
+        circle.degree === 270 &&
+        obstacleArr[i].color === pinkColor &&
+        obstacleArr[i].direction === "left"
+      ) {
+        score += 1;
+        obstacleArr.splice(i, 1);
+      } else if (
+        didCollide &&
+        circle.degree === 270 &&
+        obstacleArr[i].color === greenColor &&
+        obstacleArr[i].direction === "right"
+      ) {
+        score += 1;
+        obstacleArr.splice(i, 1);
+      } else if (
+        didCollide &&
+        circle.degree === 0 &&
+        obstacleArr[i].color === pinkColor &&
+        obstacleArr[i].direction === "top"
+      ) {
+        score += 1;
+        obstacleArr.splice(i, 1);
+      } else if (
+        didCollide &&
+        circle.degree === 0 &&
+        obstacleArr[i].color === greenColor &&
+        obstacleArr[i].direction === "bot"
+      ) {
+        score += 1;
+        obstacleArr.splice(i, 1);
+      } else if (
+        didCollide &&
+        circle.degree === 180 &&
+        obstacleArr[i].color === pinkColor &&
+        obstacleArr[i].direction === "bot"
+      ) {
+        score += 1;
+        obstacleArr.splice(i, 1);
+      } else if (
+        didCollide &&
+        circle.degree === 180 &&
+        obstacleArr[i].color === greenColor &&
+        obstacleArr[i].direction === "top"
+      ) {
+        score += 1;
         obstacleArr.splice(i, 1);
       }
+      // } else if (didCollide) { gameOver()
+      // }
     }
+
+    //player
+    circle.draw();
+    //score
+    ctx.font = "24px serif";
+    ctx.fillStyle = "#f49ac1";
+    ctx.fillText(`Score:${score}`, 600, 50);
 
     //GAME OVER FUNCTION
     function gameOver() {
       window.cancelAnimationFrame(engine);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "black";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "red";
+      ctx.fillStyle = "#f49ac1";
       ctx.font = "bold 48px serif";
-      ctx.fillText("Game Over", 145, 325);
-      ctx.fillStyle = "white";
-      ctx.fillText(`Final Score:${score}`, 120, 375);
-      clearInterval(scoreInterval);
+      ctx.fillText("Game Over", 250, 200);
+      ctx.fillText(`Final Score:${score}`, 250, 250);
+      theEnd();
     }
-    ctx.fillStyle = "red";
-    ctx.fillText(`Score:${score}`, 600, 50);
   }
 };
 
-//COLLISION DETECTION
 function detectCollision(player, obj1) {
   if (
-    player.x < obj1.x + obj1.w &&
+    player.x < obj1.x + obj1.r &&
     player.x + player.w > obj1.x &&
-    player.y < obj1.y + obj1.h &&
+    player.y < obj1.y + obj1.r &&
     player.y + player.h > obj1.y
   ) {
     return true;
@@ -311,3 +365,129 @@ function detectCollision(player, obj1) {
     return false;
   }
 }
+
+// didPinkCollide = detectPinkCollision(circle, obstacleArr[i]);
+// didGreenCollide = detectGreenCollision(circle, obstacleArr[i]);
+
+// if(didPinkCollide){
+//   console.log("pink collision")
+// }
+
+// if(didGreenCollide){
+//   console.log("green collision")
+// }
+
+// function rotate90(){
+//   ctx.save()
+//   ctx.translate(canvas.width-25,canvas.height/circle.h-8)
+//   ctx.rotate(90*Math.PI/180)
+//   ctx.drawImage(player, circle.x, circle.y, circle.w, circle.h);
+//   ctx.restore()
+//   console.log('test')
+//   }
+
+// function detectPinkCollision(player, obj1) {
+//   if (
+//     player.x < obj1.x + obj1.r &&player.x + player.w > obj1.x && player.y < obj1.y + obj1.r && player.y + player.h > obj1.y
+//   ) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
+
+// function detectGreenCollision(player, obj1) {
+//   if (
+//     player.x < obj1.x + obj1.r &&player.x + player.w > obj1.x && player.y + player.h < obj1.y + obj1.r && player.y > obj1.y
+//   ) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
+
+// COLLISION DETECTION
+
+//SECOND LOOP FOR CREATING ITEM CLASS OBJECT
+// for (let i = 0; i < obstacleArr.length; i++) {
+//   ctx.fillStyle = obstacleArr[i].color;
+//   obstacleArr[i].move();
+//   ctx.beginPath();
+//   ctx.arc(
+//     obstacleArr[i].x,
+//     obstacleArr[i].y,
+//     obstacleArr[i].r,
+//     obstacleArr[i].a,
+//     obstacleArr[i].e,
+//     obstacleArr[i].color
+//   );
+//   ctx.fill();
+//   ctx.closePath();
+// }
+
+//PLAYER ROTATION ON-CLICK
+
+//90 DEGREE ROTATION
+// function rotate90(){
+//   ctx.save()
+//   ctx.translate(canvas.width-25,canvas.height/circle.h-8)
+//   ctx.rotate(90*Math.PI/180)
+//   ctx.drawImage(player, circle.x, circle.y, circle.w, circle.h);
+//   ctx.restore()
+//   console.log('test')
+//   }
+
+//180 DEGREE ROTATION
+// function rotate180(){
+// ctx.save()
+// ctx.translate(canvas.width,canvas.height)
+// ctx.rotate(180*Math.PI/180)
+// ctx.drawImage(player, circle.x, circle.y, circle.w, circle.h);
+// ctx.restore()
+// }
+//270 DEGREE ROTATION
+// function rotate270(){
+// ctx.save()
+// ctx.translate(0,canvas.height)
+// ctx.rotate(270*Math.PI/180)
+// ctx.drawImage(player, circle.x, circle.y, circle.w, circle.h);
+// ctx.restore()
+// }
+
+//STARTING POINT
+// ctx.drawImage(player, circle.x, circle.y, circle.w, circle.h)
+
+// //180 DEGREE COLLISION
+// if(didCollide && circle.degree === 180 && obstacleArr[i].color ==="#f49ac1" && obstacleArr[i].direction === "top"){
+//   score +=100
+//   obstacleArr.splice(i, 1);
+// } else  if(didCollide && circle.degree === 180 && obstacleArr[i].color ==="#82ca9c" && obstacleArr[i].direction === "bot"){
+//   score +=100
+//   obstacleArr.splice(i, 1);
+// }
+// else if(didCollide){
+//   console.log("180")
+// }
+// //270 DEGREE COLLISION
+// if(didCollide && circle.degree === 270 && obstacleArr[i].color === pinkColor && obstacleArr[i].direction === "left"){
+//   score +=100
+//   obstacleArr.splice(i, 1);
+// } else if(didCollide && circle.degree === 270 && obstacleArr[i].color ===greenColor && obstacleArr[i].direction === "right"){
+//   score +=100
+//   obstacleArr.splice(i, 1);
+// }
+// else if(didCollide){
+//   console.log("270")
+// }
+
+// //0 DEGREE COLLISION
+// if(didCollide && circle.degree === 90 && obstacleArr[i].color ==="#f49ac1" && obstacleArr[i].direction === "top"){
+//   score +=100
+//   obstacleArr.splice(i, 1);
+// } else  if(didCollide && circle.degree === 90 && obstacleArr[i].color ==="#82ca9c" && obstacleArr[i].direction === "bot"){
+//   score +=100
+//   obstacleArr.splice(i, 1);
+// }
+// else if(didCollide){
+//   console.log("collide")
+// }
