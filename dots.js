@@ -17,7 +17,7 @@ window.onload = () => {
 
   //SOUND EFFECTS
   function hitmarker() {
-    var audio = new Audio("/sounds/Among Us (Kill) - Sound Effect (HD).mp3");
+    var audio = new Audio("/sounds/hit marker Sound Effect.wav");
     audio.play();
   }
   function gameOverSound() {
@@ -262,43 +262,43 @@ window.onload = () => {
     circle.draw();
 
     //LEVEL 2
-    if (score === 3) {
+    if (score === 5) {
       speed = 0.75;
       level = 2;
     }
 
     //LEVEL 3
-    if (score === 6) {
+    if (score === 10) {
       speed = 1;
       level = 3;
     }
 
     //LEVEL 4
-    if (score === 9) {
+    if (score === 15) {
       speed = 1.25;
       level = 4;
     }
 
     //LEVEL 5
-    if (score === 12) {
+    if (score === 20) {
       speed = 1.5;
       level = 5;
     }
 
     //LEVEL 6
-    if (score === 15) {
+    if (score === 25) {
       speed = 1.75;
       level = 6;
     }
 
     //LEVEL 7
-    if (score === 18) {
+    if (score === 30) {
       speed = 2;
       level = 7;
     }
 
     //LEVEL 8
-    if (score === 21) {
+    if (score === 35) {
       speed = 2.5;
       level = 8;
     }
