@@ -8,19 +8,33 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 //LOAD FUNCTION
 window.onload = () => {
-  document.getElementById("start-button").onclick = function () {
+  document.getElementById("play-button").onclick = function () {
     startGame();
   };
 
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  const endScreen = new Image();
-  function theEnd() {
-    endScreen.onload = function () {
-      ctx.drawImage(endScreen, 0, 0, 750, 750);
-    };
-    endScreen.src = "/images/gameover-screen.png";
+  //SOUND EFFECTS
+  function hitmarker() {
+    var audio = new Audio("/sounds/Among Us (Kill) - Sound Effect (HD).mp3");
+    audio.play();
+  }
+  function gameOverSound() {
+    var audio = new Audio("/sounds/gameover-retro.wav");
+    audio.play();
+  }
+
+  //GAME ENGINE AND COLLISION VARIABLES AND FUNCTIONS
+  let engine;
+  let didCollide;
+  let intervalTime = 4000;
+  let score = 0;
+  let speed = 0;
+  let level = 0;
+  if (score === 0) {
+    speed = 0.5;
+    level = 1;
   }
 
   //PLAYER IMAGE
@@ -108,12 +122,11 @@ window.onload = () => {
     }
 
     move() {
-      this.y = this.y + 1.25;
+      this.y = this.y + speed;
     }
   }
   //CiRCLE VARIABLES AND FUNCTIONS TOP
   const ob1 = new ItemMidTop();
-  obstacleArr.push(ob1);
   function createObj1() {
     obstacleArr.push(new ItemMidTop());
   }
@@ -134,12 +147,11 @@ window.onload = () => {
     }
 
     move() {
-      this.y = this.y - 1.25;
+      this.y = this.y - speed;
     }
   }
   //CiRCLE VARIABLES AND FUNCTIONS BOT
   const ob2 = new ItemMidBot();
-  obstacleArr.push(ob2);
   function createObj2() {
     obstacleArr.push(new ItemMidBot());
   }
@@ -160,12 +172,11 @@ window.onload = () => {
     }
 
     move() {
-      this.x = this.x + 1.25;
+      this.x = this.x + speed;
     }
   }
   //CiRCLE VARIABLES AND FUNCTIONS LEFT
   const ob3 = new ItemMidLeft();
-  obstacleArr.push(ob3);
   function createObj3() {
     obstacleArr.push(new ItemMidLeft());
   }
@@ -186,21 +197,16 @@ window.onload = () => {
     }
 
     move() {
-      this.x = this.x - 1.25;
+      this.x = this.x - speed;
     }
   }
   //CiRCLE VARIABLES AND FUNCTIONS RIGHT
   const ob4 = new ItemMidRight();
-  obstacleArr.push(ob4);
   function createObj4() {
     obstacleArr.push(new ItemMidRight());
   }
 
-  //GAME ENGINE AND COLLISION VARIABLES AND FUNCTIONS
-  let engine;
-  let didCollide;
-  let score = 0;
-
+  //RANDOM DIRECTION OBJECTS
   function createRandomObject(arr) {
     let randomObj = Math.floor(Math.random() * 4);
     switch (randomObj) {
@@ -232,7 +238,7 @@ window.onload = () => {
           break;
       }
     });
-    setInterval(createRandomObject, 2000);
+    setInterval(createRandomObject, intervalTime);
     animate();
   }
 
@@ -242,6 +248,60 @@ window.onload = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //score
+    ctx.font = "24px arial";
+    ctx.fillStyle = pinkColor;
+    ctx.fillText(`Score:${score}`, 600, 50);
+
+    //score
+    ctx.font = "24px arial";
+    ctx.fillStyle = pinkColor;
+    ctx.fillText(`Level:${level}`, 100, 50);
+
+    //player
+    circle.draw();
+
+    //LEVEL 2
+    if (score === 3) {
+      speed = 0.75;
+      level = 2;
+    }
+
+    //LEVEL 3
+    if (score === 6) {
+      speed = 1;
+      level = 3;
+    }
+
+    //LEVEL 4
+    if (score === 9) {
+      speed = 1.25;
+      level = 4;
+    }
+
+    //LEVEL 5
+    if (score === 12) {
+      speed = 1.5;
+      level = 5;
+    }
+
+    //LEVEL 6
+    if (score === 15) {
+      speed = 1.75;
+      level = 6;
+    }
+
+    //LEVEL 7
+    if (score === 18) {
+      speed = 2;
+      level = 7;
+    }
+
+    //LEVEL 8
+    if (score === 21) {
+      speed = 2.5;
+      level = 8;
+    }
 
     //LOOP FOR CREATING ITEM CLASS OBJECT
 
@@ -272,6 +332,7 @@ window.onload = () => {
       ) {
         score += 1;
         obstacleArr.splice(i, 1);
+        hitmarker();
       } else if (
         didCollide &&
         circle.degree === 90 &&
@@ -280,6 +341,7 @@ window.onload = () => {
       ) {
         score += 1;
         obstacleArr.splice(i, 1);
+        hitmarker();
       } else if (
         didCollide &&
         circle.degree === 270 &&
@@ -288,6 +350,7 @@ window.onload = () => {
       ) {
         score += 1;
         obstacleArr.splice(i, 1);
+        hitmarker();
       } else if (
         didCollide &&
         circle.degree === 270 &&
@@ -296,6 +359,7 @@ window.onload = () => {
       ) {
         score += 1;
         obstacleArr.splice(i, 1);
+        hitmarker();
       } else if (
         didCollide &&
         circle.degree === 0 &&
@@ -304,6 +368,7 @@ window.onload = () => {
       ) {
         score += 1;
         obstacleArr.splice(i, 1);
+        hitmarker();
       } else if (
         didCollide &&
         circle.degree === 0 &&
@@ -312,6 +377,7 @@ window.onload = () => {
       ) {
         score += 1;
         obstacleArr.splice(i, 1);
+        hitmarker();
       } else if (
         didCollide &&
         circle.degree === 180 &&
@@ -320,6 +386,7 @@ window.onload = () => {
       ) {
         score += 1;
         obstacleArr.splice(i, 1);
+        hitmarker();
       } else if (
         didCollide &&
         circle.degree === 180 &&
@@ -328,28 +395,23 @@ window.onload = () => {
       ) {
         score += 1;
         obstacleArr.splice(i, 1);
+        hitmarker();
+      } else if (didCollide) {
+        gameOver();
       }
-      // } else if (didCollide) { gameOver()
-      // }
     }
-
-    //player
-    circle.draw();
-    //score
-    ctx.font = "24px serif";
-    ctx.fillStyle = "#f49ac1";
-    ctx.fillText(`Score:${score}`, 600, 50);
-
-    //GAME OVER FUNCTION
-    function gameOver() {
-      window.cancelAnimationFrame(engine);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#f49ac1";
-      ctx.font = "bold 48px serif";
-      ctx.fillText("Game Over", 250, 200);
-      ctx.fillText(`Final Score:${score}`, 250, 250);
-      theEnd();
-    }
+  }
+  //GAME OVER FUNCTION
+  function gameOver() {
+    window.cancelAnimationFrame(engine);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = pinkColor;
+    ctx.font = "bold 48px arial";
+    ctx.fillText("Game Over", 260, 350);
+    ctx.fillText(`Level:${level} Score:${score}`, 210, 400);
+    gameOverSound();
   }
 };
 
