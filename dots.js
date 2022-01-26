@@ -410,7 +410,7 @@ window.onload = () => {
     ctx.fillStyle = pinkColor;
     ctx.font = "bold 48px arial";
     ctx.fillText("Game Over", 260, 350);
-    ctx.fillText(`Level:${level} Score:${score}`, 210, 400);
+    ctx.fillText(`Level: ${level} Score: ${score}`, 205, 400);
     gameOverSound();
   }
 };
