@@ -11,20 +11,31 @@
     <div class="game-intro">
       <img src="/images/circle-game-logo.png" alt="" class="logo-img" />
       <br />
-      <input type="image" src="images/Play-button.png" id="play-button"/>
-     
-      <!-- <input type="image" src="/images/Replay-button.png" id="sound-button"/> -->
+      <input
+        class="controls"
+        type="image"
+        src="images/Play-button.png"
+        id="play-button"
+      />
+      <input
+        class="controls"
+        type="image"
+        src="/images/Sound-button.png"
+        id="mute-button"
+      />
+      <button onClick="window.location.href=window.location.href">
+        <img src="/images/Replay-button.png" />
+      </button>
       <p>
         Instructions: <br />Use the left-mouse button to rotate and collect
         corresponding colored circles
       </p>
-      <!-- <img src="./images/arrows.png" alt="" class="arrows-img" /> -->
     </div>
 
     <div id="game-board">
       <canvas id="canvas" width="750" height="750"></canvas>
     </div>
 
-    <script type="text/javascript" src="/dots.js"></script>
+    <script type="text/javascript" src="/circlegame.js"></script>
   </body>
 </html>
