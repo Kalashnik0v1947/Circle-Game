@@ -21,7 +21,8 @@ body {
   width: 100px;
 }
 #mute-button {
-  width: 90;
+  width: 90px;
+
 }
 
 button img {
@@ -55,5 +56,5 @@ h2 {
   font-family: "Lato", sans-serif;
   font-family: "Limelight", cursive;
   color: black;
-  font-size: 28px;
+  font-size: 24px;
 }
