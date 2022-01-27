@@ -18,14 +18,14 @@ window.onload = () => {
 
   //SOUND EFFECTS
   function hitmarker() {
-    let audio = new Audio("/sounds/hit marker Sound Effect.wav");
+    let audio = new Audio("sounds/hit marker Sound Effect.wav");
     audio.play();
   }
   function gameOverSound() {
-    let audio = new Audio("/sounds/gameover-retro.wav");
+    let audio = new Audio("sounds/gameover-retro.wav");
     audio.play();
   }
-  let backgroundAudio = new Audio("/sounds/Eric Prydz - Opus (OUT NOW).mp3");
+  let backgroundAudio = new Audio("sounds/Eric Prydz - Opus (OUT NOW).mp3");
 
   function backgroundSound() {
     backgroundAudio.play();
@@ -41,10 +41,10 @@ window.onload = () => {
 
   //PLAYER IMAGE
   const player = new Image();
+  player.src = "images/Player.png";
   player.onload = function () {
     ctx.drawImage(player, 350, 325, 50, 100);
   };
-  player.src = "/images/Player.png";
 
   //PLAYER CLASS
   class Player {
