@@ -1,4 +1,3 @@
-
 body {
   padding: 0;
   text-align: center;
@@ -31,7 +30,6 @@ button img {
   float: center;
 }
 button {
-  
   border: none;
   background-color: lightblue;
 }
@@ -51,12 +49,11 @@ html {
 
 #buttons {
   float: center;
-  }
+}
 
 h2 {
-  font-family: 'Lato', sans-serif;
-  font-family: 'Limelight', cursive;
-   color: black;
-   font-size: 28px;
-
-  }
+  font-family: "Lato", sans-serif;
+  font-family: "Limelight", cursive;
+  color: black;
+  font-size: 28px;
+}
