@@ -1,3 +1,4 @@
+
 body {
   padding: 0;
   text-align: center;
@@ -18,20 +19,19 @@ body {
 }
 
 .controls {
-  width: 101px;
+  width: 100px;
 }
 #mute-button {
-  width: 95px;
+  width: 90;
 }
 
 button img {
-  width: 101px;
+  width: 100px;
 
   float: center;
 }
 button {
-  width: 0px;
-  height: 0px;
+  
   border: none;
   background-color: lightblue;
 }
@@ -42,9 +42,21 @@ button {
 }
 
 #canvas {
-  border: 1px solid black;
+  border: 2px solid black;
 }
 
 html {
   background-color: lightblue;
 }
+
+#buttons {
+  float: center;
+  }
+
+h2 {
+  font-family: 'Lato', sans-serif;
+  font-family: 'Limelight', cursive;
+   color: black;
+   font-size: 28px;
+
+  }
